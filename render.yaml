@@ -13,11 +13,12 @@ services:
       - key: NODE_ENV
         value: production
 
-static_sites:
-  - name: cartify-frontend
-    branch: main
+  - type: web
+    name: cartify-frontend
+    env: node
+    plan: free
     buildCommand: cd frontend && npm ci && npm run build
-    publishPath: frontend/build
+    startCommand: npm run start --prefix frontend
     env:
       - key: REACT_APP_API_URL
         # Set this in Render to the backend URL, e.g. https://cartify-backend.onrender.com

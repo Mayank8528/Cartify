@@ -14,15 +14,15 @@ Backend (web service)
   - `PAYPAL_CLIENT_ID`, `PAYPAL_APP_SECRET`, `PAYPAL_API_URL`
   - `NODE_ENV=production`
 
-Frontend (static site)
-- Static site name: `cartify-frontend`
+Frontend (web service)
+- Service name: `cartify-frontend`
 - Branch: `main` (or your deploy branch)
 - Build command: `cd frontend && npm ci && npm run build`
-- Publish directory: `frontend/build`
-- Set env var `REACT_APP_API_URL` to your backend public URL (e.g. `https://cartify-backend.onrender.com`) if you want the frontend to call the backend directly.
+- Start command: `npm run start --prefix frontend` (uses `serve` to serve `frontend/build`)
+- Set env var `REACT_APP_API_URL` to your backend public URL (e.g. `https://cartify-backend.onrender.com`) so the frontend can call the backend directly.
 
 Notes
-- The frontend reads `REACT_APP_API_URL` at build time; set it via Render's static site env vars before triggering a deploy.
+- The frontend reads `REACT_APP_API_URL` at build time; set it via Render's env vars before triggering a deploy.
 - The backend exposes `/health` for health checks and will retry DB connection on startup (development). In production Render will restart failed services automatically.
 - For security, configure your MongoDB Atlas IP access and use Render's secrets to store `MONGO_URI` instead of committing it.
 
