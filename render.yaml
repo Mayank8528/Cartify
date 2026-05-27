@@ -6,7 +6,8 @@ services:
     name: cartify-backend
     env: node
     plan: free
-    buildCommand: npm install
+    rootDir: .
+    buildCommand: npm ci
     startCommand: npm run start
     # Optional: expose a health check path in the service settings: /health
     env:
@@ -17,8 +18,9 @@ services:
     name: cartify-frontend
     env: node
     plan: free
-    buildCommand: cd frontend && npm ci && npm run build
-    startCommand: npm run start --prefix frontend
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
     env:
       - key: REACT_APP_API_URL
         # Set this in Render to the backend URL, e.g. https://cartify-backend.onrender.com
