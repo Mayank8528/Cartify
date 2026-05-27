@@ -1,0 +1,24 @@
+# Render manifest to deploy frontend and backend separately
+# Adjust `repo` and `branch` in Render dashboard if needed, and set required env vars via Render UI or a secrets manager.
+
+services:
+  - type: web
+    name: cartify-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start
+    # Optional: expose a health check path in the service settings: /health
+    env:
+      - key: NODE_ENV
+        value: production
+
+static_sites:
+  - name: cartify-frontend
+    branch: main
+    buildCommand: cd frontend && npm ci && npm run build
+    publishPath: frontend/build
+    env:
+      - key: REACT_APP_API_URL
+        # Set this in Render to the backend URL, e.g. https://cartify-backend.onrender.com
+        value: ''
