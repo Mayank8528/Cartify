@@ -13,6 +13,9 @@ services:
     env:
       - key: NODE_ENV
         value: production
+      - key: FRONTEND_URL
+        # Set this to your deployed frontend URL, e.g. https://cartify-frontend.onrender.com
+        value: ''
 
   - type: web
     name: cartify-frontend

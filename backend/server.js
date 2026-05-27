@@ -2,6 +2,7 @@ import path from 'path';
 import mongoose from 'mongoose';
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import './config/env.js';
 import connectDB from './config/db.js';
 import productRoutes from './routes/productRoutes.js';
@@ -13,6 +14,24 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 const port = process.env.PORT || 5000;
 
 const app = express();
+
+const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:3000')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS blocked origin: ${origin}`));
+      }
+    },
+    credentials: true,
+  })
+);
 
 // Connect to MongoDB before starting the server — retry with backoff until connected
 const start = async () => {
